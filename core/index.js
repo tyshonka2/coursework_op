@@ -4,3 +4,10 @@ export function* generateTaskId() {
         yield `TASK-${id++}`;
     }
 }
+
+export function processTasksWithTimeout(iterator, timeoutSeconds) {
+    while (true) {
+        const nextTask = iterator.next().value;
+        console.log(`Processing: ${nextTask}`);
+    }
+}
