@@ -2,7 +2,13 @@ export function memoize(fn, { maxSize = 10 } = {}) {
     const cache = new Map();
     return (...args) => {
         const key = JSON.stringify(args);
-        if (cache.has(key)) return cache.get(key);
+        if (cache.has(key)) {
+
+            const val = cache.get(key);
+            cache.delete(key);
+            cache.set(key, val);
+            return val;
+        }
         
         if (cache.size >= maxSize) {
             cache.delete(cache.keys().next().value);
