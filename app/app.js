@@ -1,4 +1,4 @@
-import { generateTaskId } from 'kanban-core';
+import { generateTaskId } from 'core';
 
 const idGen = generateTaskId();
 console.log("Створено нову задачу:", idGen.next().value);
