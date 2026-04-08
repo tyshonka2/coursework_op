@@ -26,3 +26,6 @@ console.log("Результат:", memoizedFunc(10));
 
 console.log("\n--- Спроба 4 (5) - після переповнення кешу: ---");
 console.log("Результат:", memoizedFunc(5)); 
+
+import { rearrangeList } from 'core';
+
