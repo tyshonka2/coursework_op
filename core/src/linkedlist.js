@@ -14,6 +14,11 @@ export function rearrangeList(head) {
             else { posTail.next = current; posTail = current; }
         }
         current = next;
+    if (!negHead) {
+    return posHead; 
+         }
     }
-    return negHead || posHead; 
 }
+negTail.next = posHead; 
+
+return negHead;
