@@ -29,3 +29,12 @@ console.log("Результат:", memoizedFunc(5));
 
 import { rearrangeList } from 'core';
 
+
+import { insert, traverse, TreeNode } from 'core';
+
+let root = new TreeNode(10);
+insert(root, 5);
+insert(root, 15);
+insert(root, 3);
+
+console.log("Результат обходу:", traverse(root)); 

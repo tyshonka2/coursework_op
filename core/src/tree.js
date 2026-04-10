@@ -16,8 +16,8 @@ export function insert(node, value) {
 export function traverse(node, result = []) {
     if (!node) return result;
     
-    result.push(node.value); 
     traverse(node.left, result);
+    result.push(node.value); 
     traverse(node.right, result);
     
     return result;
