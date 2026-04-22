@@ -13,3 +13,11 @@ export function filterCallback(arr, predicate, callback, signal) {
         }, 50);
     });
 }
+
+export function filterPromise(arr, predicate, signal) {
+    return new Promise((resolve, reject) => {
+        filterCallback(arr, (item, cb) => {
+            predicate(item).then(v => cb(null, v)).catch(e => cb(e, null));
+        }, (err, res) => (err ? reject(err) : resolve(res)), signal);
+    });
+}
