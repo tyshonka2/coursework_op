@@ -61,3 +61,9 @@ console.log("Беремо в роботу найпершу задачу, що в
 
 console.log("\nЗалишок черги:");
 console.log("Тепер найважливіша:", backlog.peek('highest'));
+
+
+import { filterCallback, filterPromise } from 'core';
+
+const controller = new AbortController();
+filterCallback([1,2,3], (n, cb) => cb(null, n > 1), (err, res) => console.log(res));
