@@ -67,3 +67,31 @@ import { filterCallback, filterPromise } from 'core';
 
 const controller = new AbortController();
 filterCallback([1,2,3], (n, cb) => cb(null, n > 1), (err, res) => console.log(res));
+
+import { createDataStream, consumeStream, EventStream } from 'kanban-core';
+
+async function runDemo() {
+    console.log("--- Task 6: Stream Processor ---");
+
+    try {
+        const stream = createDataStream(5);
+        await consumeStream(stream, (data) => console.log("Stream Item:", data.payload));
+        console.log("Stream finished successfully.");
+    } catch (e) {
+        console.error("Stream Producer Error:", e.message);
+    }
+
+    console.log("\n--- Testing EventStream ---");
+    const es = new EventStream();
+    
+    es.on('data', (d) => console.log("Event Received:", d));
+    es.on('error', (e) => console.error("Event Error caught:", e.message));
+
+    try {
+        es.process([{ val: "Valid 1" }, null, { val: "Valid 2" }]);
+    } catch(e) {
+        console.log("Main process caught re-thrown error as expected.");
+    }
+}
+
+runDemo();
