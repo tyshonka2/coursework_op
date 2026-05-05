@@ -68,7 +68,7 @@ import { filterCallback, filterPromise } from 'core';
 const controller = new AbortController();
 filterCallback([1,2,3], (n, cb) => cb(null, n > 1), (err, res) => console.log(res));
 
-import { createDataStream, consumeStream, EventStream } from 'kanban-core';
+import { createDataStream, consumeStream } from 'core';
 
 async function runDemo() {
     console.log("--- Task 6: Stream Processor ---");

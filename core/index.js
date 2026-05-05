@@ -4,5 +4,4 @@ export * from './src/linkedlist.js';
 export * from './src/tree.js';
 export * from './src/queue.js';
 export * from './src/asyncsArray.js';
-export * from './src/eventStream.js';
-export * from './src/streamProssecor.js';
+export * from './src/streamProcessor.js';

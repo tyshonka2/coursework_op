@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events';
 
-// Async Generator
 export async function* createDataStream(count) {
     for (let i = 0; i < count; i++) {
         if (Math.random() < 0.1) {
@@ -10,7 +9,6 @@ export async function* createDataStream(count) {
     }
 }
 
-// Consumer
 export async function consumeStream(stream, processor) {
     for await (const chunk of stream) {
         processor(chunk);
