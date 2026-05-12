@@ -95,3 +95,14 @@ async function runDemo() {
 }
 
 runDemo();
+
+
+import { ReactiveEntity } from 'core';
+
+const entity = new ReactiveEntity();
+
+entity.subscribe('message', (data) => console.log("Listener 1 received:", data));
+
+entity.subscribe('message', () => { throw new Error("I am broken!"); });
+
+entity.subscribe('message', (data) => console.log("Listener 3 received:", data));
