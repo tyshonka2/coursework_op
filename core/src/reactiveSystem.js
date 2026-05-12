@@ -19,4 +19,12 @@ export class ReactiveEntity extends EventEmitter {
         }
         return hasListeners;
     }
+
+    subscribe(event, listener) {
+        this.on(event, listener);
+    }
+
+    unsubscribe(event, listener) {
+        this.off(event, listener);
+    }
 }
