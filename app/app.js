@@ -106,3 +106,56 @@ entity.subscribe('message', (data) => console.log("Listener 1 received:", data))
 entity.subscribe('message', () => { throw new Error("I am broken!"); });
 
 entity.subscribe('message', (data) => console.log("Listener 3 received:", data));
+
+
+import { AuthProxy, JwtAuthStrategy } from 'core';
+
+class KanbanApiService {
+    constructor(httpClient) {
+        this.httpClient = httpClient; 
+    }
+
+    async fetchTasks() {
+        return this.httpClient.request('https://api.kanban.local/tasks');
+    }
+}
+
+class MockHttpClient {
+    constructor() { this.firstCall = true; }
+    
+    async request(url, options) {
+        console.log(`[MockClient] Requesting ${url} with token: ${options.headers.get('Authorization')}`);
+        
+        if (this.firstCall) {
+            this.firstCall = false;
+            return { status: 401, json: async () => ({ error: "Expired" }) };
+        }
+        return { status: 200, json: async () => ({ data: ["Task 1", "Task 2"] }) };
+    }
+}
+
+async function runLab8() {
+    console.log("--- Lab 8: Auth Proxy & DI ---");
+
+    let currentToken = "old-expired-token";
+
+    const jwtStrategy = new JwtAuthStrategy(
+        () => currentToken,
+        async () => {       
+            console.log("[App] Fetching new token from auth server...");
+            currentToken = "new-fresh-token-123"; 
+        }
+    );
+
+    const baseClient = new MockHttpClient(); 
+    const authProxy = new AuthProxy(baseClient, jwtStrategy);
+    const apiService = new KanbanApiService(authProxy);
+
+    const response = await apiService.fetchTasks();
+    const data = await response.json();
+    
+    console.log("[App] Final Response Status:", response.status);
+    console.log("[App] Data:", data);
+}
+
+runLab8();

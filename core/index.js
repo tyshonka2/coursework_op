@@ -6,3 +6,4 @@ export * from './src/queue.js';
 export * from './src/asyncsArray.js';
 export * from './src/streamProcessor.js';
 export * from './src/reactiveSystem.js';
+export * from './src/httpSystem.js';
