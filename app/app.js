@@ -159,3 +159,50 @@ async function runLab8() {
 }
 
 runLab8();
+
+
+
+import { createLogDecorator } from 'core';
+
+const customFileTransport = {
+    log: (msg) => console.log(`[FILE_WRITE_LOG] ${msg}`),
+    error: (msg) => console.error(`[FILE_WRITE_ERROR] ${msg}`)
+};
+
+const logInfo = createLogDecorator({ level: 'INFO', formatter: JSON.stringify });
+const logErrorOnly = createLogDecorator({ level: 'ERROR', transport: customFileTransport });
+
+function calculateComplexitySync(points) {
+    if (points < 0) throw new Error("Points cannot be negative");
+    return points * 2;
+}
+
+async function fetchUserDataAsync(userId) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (userId === 0) reject(new Error("User ID not found"));
+            else resolve({ id: userId, name: "Student" });
+        }, 100);
+    });
+}
+
+const safeCalculate = logInfo(calculateComplexitySync);
+const safeFetch = logErrorOnly(fetchUserDataAsync);
+
+async function runLab9() {
+    console.log("--- Lab 9: Logging Decorator ---");
+    
+    console.log("\n1. INFO Level (Sync) - Успіх:");
+    safeCalculate(5); 
+    
+    console.log("\n2. INFO Level (Sync) - Помилка:");
+    try { safeCalculate(-1); } catch (e) {}
+
+    console.log("\n3. ERROR Level (Async) - Успіх (НЕ ПОВИННО ЛОГУВАТИСЯ):");
+    await safeFetch(1);
+    
+    console.log("\n4. ERROR Level (Async) - Помилка (ПОВИННО ЛОГУВАТИСЯ):");
+    try { await safeFetch(0); } catch (e) {}
+}
+
+runLab9();
